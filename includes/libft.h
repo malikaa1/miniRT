@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 14:43:33 by mrahmani          #+#    #+#             */
-/*   Updated: 2020/05/29 17:43:13 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/04 00:49:25 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int					ft_toupper(int c);
 int					ft_tolower(int c);
 int					ft_atoi(const char *str);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strcmp(const char *s1, const char *s2);
 int					ft_memcmp(const void *ptr1, const void *ptr2, size_t size);
 char				*ft_itoa(int n);
 char				*ft_strtrim(char const *s1, char const *set);
@@ -70,5 +71,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
+int					get_next_line(int fd, char **line);
+#define 			BUFFER_SIZE 100
 
 #endif

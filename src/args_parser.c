@@ -21,25 +21,19 @@ int parse_args(int argc, char **argv, t_minirt *minirt) {
     printf("%s", error_msg);
     return -1;
   }
-
   if (argc >= 2) {
     minirt->scene_file = argv[1];
     if (is_valid_file_extension(minirt->scene_file) == 0) {
-      printf("wrong file extension\n");
-      printf("%s\n", error_msg);
+      printf("wrong file extension\n%s", error_msg);
       return -1;
     }
-    printf("%s\n", minirt->scene_file);
   }
-
   if (argc > 2) {
     if (ft_strncmp(argv[2], "--save", ft_strlen("--save")) != 0) {
-      printf("Invalid argument %s\n", argv[2]);
-      printf("%s\n", error_msg);
+      printf("Invalid argument %s\n%s", argv[2], error_msg);
       return -1;
-    } else {
+    } else
       minirt->save = 1;
-    }
   }
   return 1;
 }

@@ -3,21 +3,23 @@ SRCS = ${wildcard ./src/*.c}
 INCLUDES = includes
 CC = gcc
 MLX_FLAGS = -I./minilibx-linux -L./minilibx-linux -lmlx -lXext -lX11
-LIBFT_FLAGS = -I./libft -L./libft -lft
+LIBFT_FLAGS = -I./libft -L./libft -lftt
 MLX_DIR = ./minilibx-linux
 LIBFT_DIR = ./libft
 OBJS		= ${SRCS:.c=.o}
 CFLAGS= -Wall -Wextra -Werror
+SRCS_LIBFT 	= ${wildcard ./libft/*.c}
+OBJS_LIBFT	= ${SRCS_LIBFT:.c=.o}
 
 
-$(NAME):	$(OBJS)
-	@make -C $(MLX_DIR)
+$(NAME):	$(OBJS) $(OBJS_LIBFT)
 	@make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -I $(INCLUDES) $(OBJS) -o $(NAME) $(LIBFT_FLAGS) $(MLX_FLAGS)
+	@make -C $(MLX_DIR)
+	$(CC) $(CFLAGS) -I $(INCLUDES) $(OBJS) $(OBJS_LIBFT) -o $(NAME) $(MLX_FLAGS)  -lm 
 
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I $(INCLUDES) -o $@ -c $<
+	$(CC) -g $(CFLAGS) -I $(INCLUDES) -o $@ -c $<
 
 all:	$(NAME)
 
