@@ -62,3 +62,25 @@ double ft_atof(char *value) {
 
   return result;
 }
+
+int is_in_range(double num, double start, double end) {
+  if (num >= start && num <= end)
+    return (1);
+
+  return (0);
+}
+
+int get_ratio(char *value, double *ratio) {
+  double v;
+  if (is_valid_float(value) == 0) {
+    return 0;
+  }
+
+  v = ft_atof(value);
+  if (v >= 0 && v <= 1) {
+    *ratio = v;
+    return 1;
+  }
+
+  return 0;
+}

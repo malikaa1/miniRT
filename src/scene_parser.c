@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:32:03 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/05 21:01:22 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/11 02:02:22 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,90 +67,177 @@ int is_space(char c) {
   return 0;
 }
 
-int is_valid_color_component(char *color_component) {
-  int color;
-  if (is_valid_int(color_component) == 0)
-    return 0;
-
-  color = ft_atoi(color_component);
-
-  return color >= 0 && color <= 255;
-}
-
-int try_get_ratio(char *value, double *ratio) {
-  double v;
-  if (is_valid_float(value) == 0) {
-    return 0;
-  }
-
-  v = ft_atof(value);
-  if (v >= 0 && v <= 1) {
-    *ratio = v;
-    return 1;
-  }
-
-  return 0;
-}
-
-int try_get_color(char *value, t_color *color) {
-  char **parts;
-  parts = ft_split(value, ',');
-  if (get_length(parts) != 3)
-    return 0;
-  if (is_valid_color_component(parts[0]) == 0 ||
-      is_valid_color_component(parts[1]) == 0 ||
-      is_valid_color_component(parts[2]) == 0)
-    return 0;
-
-  color->r = ft_atoi(parts[0]);
-  color->g = ft_atoi(parts[0]);
-  color->b = ft_atoi(parts[0]);
-  return 1;
-}
-
-int create_scene_resolution(t_minirt *minirt, char *value) {
+int set_scene_resolution(t_minirt *minirt, char *value) {
   t_resolution resolution;
   char **split;
   char *width;
   char *height;
   split = ft_split(value, ' ');
   if (split == NULL) {
-    printf("Wrong resolution value '%s'", value);
+    printf("Wrong resolution value '%s'\n", value);
     return (-1);
   }
   width = *split++;
   height = *split;
   if (is_valid_int(width) == 0 || is_valid_int(height) == 0) {
-    printf("Wrong resolution value '%s'", value);
+    printf("Wrong resolution value '%s'\n", value);
     return (-1);
   }
   resolution.height = ft_atoi(height);
-  resolution.wdith = ft_atoi(width);
+  resolution.width = ft_atoi(width);
   minirt->scene->resolution = resolution;
   return (0);
 }
 
-int create_ambiant_ligntning(t_minirt *minirt, char *value) {
+int set_ambiant_ligntning(t_minirt *minirt, char *value) {
   t_ambiant_ligntning ambiant_ligntning;
-  char **values;
-  values = ft_split(value, ' ');
-  if (get_length(values) != 2 ||
-      try_get_ratio(values[0], &ambiant_ligntning.ratio) == 0 ||
-      try_get_color(values[1], &ambiant_ligntning.color) == 0) {
-    printf("Ambiant lightning invalid value '%s'\n", value);
-    free_values((void **)values);
+  if (create_ambiant_ligntning(value, &ambiant_ligntning) == -1) {
     return -1;
   }
+
   minirt->scene->ambiant_ligntning = ambiant_ligntning;
 
   return (0);
 }
 
+int set_camera(t_minirt *minirt, char *value) {
+  t_camera *camera;
+  t_list *camera_list;
+
+  camera = malloc(sizeof(t_camera));
+  if (camera == NULL) {
+    printf("unable to create camera\n");
+    return -1;
+  }
+  if (create_camera(value, camera) == -1) {
+    return -1;
+  }
+  camera_list = ft_lstnew(camera);
+  ft_lstadd_back(&minirt->scene->cameras, camera_list);
+  return (0);
+}
+
+int set_light(t_minirt *minirt, char *value) {
+  t_light *light;
+  t_list *light_list;
+
+  light = malloc(sizeof(t_light));
+  if (light == NULL) {
+    printf("unable to create light\n");
+    return -1;
+  }
+  if (create_light(value, light) == -1) {
+    return -1;
+  }
+  light_list = ft_lstnew(light);
+  ft_lstadd_back(&minirt->scene->lights, light_list);
+  return (0);
+}
+
+int set_plane(t_minirt *minirt, char *value) {
+  t_plane *plane;
+  t_list *plane_list;
+
+  plane = malloc(sizeof(t_plane));
+  if (plane == NULL) {
+    printf("unable to create plane\n");
+    return -1;
+  }
+  if (create_plane(value, plane) == -1) {
+    return -1;
+  }
+  plane_list = ft_lstnew(plane);
+  ft_lstadd_back(&minirt->scene->planes, plane_list);
+  return (0);
+}
+
+int set_square(t_minirt *minirt, char *value) {
+  t_square *square;
+  t_list *square_list;
+
+  square = malloc(sizeof(t_square));
+  if (square == NULL) {
+    printf("unable to create square\n");
+    return -1;
+  }
+  if (create_square(value, square) == -1) {
+    return -1;
+  }
+  square_list = ft_lstnew(square);
+  ft_lstadd_back(&minirt->scene->squares, square_list);
+  return (0);
+}
+
+int set_sphere(t_minirt *minirt, char *value) {
+  t_sphere *sphere;
+  t_list *sphere_list;
+
+  sphere = malloc(sizeof(t_sphere));
+  if (sphere == NULL) {
+    printf("unable to create sphere\n");
+    return -1;
+  }
+  if (create_sphere(value, sphere) == -1) {
+    return -1;
+  }
+  sphere_list = ft_lstnew(sphere);
+  ft_lstadd_back(&minirt->scene->spheres, sphere_list);
+  return (0);
+}
+
+int set_cylinder(t_minirt *minirt, char *value) {
+  t_cylinder *cylinder;
+  t_list *cylinder_list;
+
+  cylinder = malloc(sizeof(t_cylinder));
+  if (cylinder == NULL) {
+    printf("unable to create cylinder\n");
+    return -1;
+  }
+  if (create_cylinder(value, cylinder) == -1) {
+    return -1;
+  }
+  cylinder_list = ft_lstnew(cylinder);
+  ft_lstadd_back(&minirt->scene->cylinders, cylinder_list);
+  return (0);
+}
+
+int set_triangle(t_minirt *minirt, char *value) {
+  t_triangle *triangle;
+  t_list *triangle_list;
+
+  triangle = malloc(sizeof(t_triangle));
+  if (triangle == NULL) {
+    printf("unable to create triangle\n");
+    return -1;
+  }
+  if (create_triangle(value, triangle) == -1) {
+    return -1;
+  }
+  triangle_list = ft_lstnew(triangle);
+  ft_lstadd_back(&minirt->scene->triangles, triangle_list);
+  return (0);
+}
+
 int create_scene_object(t_minirt *minirt, char *key, char *value) {
   if (strcmp(key, "R") == 0)
-    return (create_scene_resolution(minirt, value));
+    return (set_scene_resolution(minirt, value));
   if (strcmp(key, "A") == 0)
-    return (create_ambiant_ligntning(minirt, value));
+    return (set_ambiant_ligntning(minirt, value));
+  if (strcmp(key, "c") == 0)
+    return (set_camera(minirt, value));
+  if (strcmp(key, "l") == 0)
+    return (set_light(minirt, value));
+  if (strcmp(key, "pl") == 0)
+    return (set_plane(minirt, value));
+  if (strcmp(key, "sq") == 0)
+    return (set_square(minirt, value));
+  if (strcmp(key, "sp") == 0)
+    return (set_sphere(minirt, value));
+  if (strcmp(key, "cy") == 0)
+    return (set_cylinder(minirt, value));
+  if (strcmp(key, "tr") == 0)
+    return (set_triangle(minirt, value));
   return (-1);
 }
 
