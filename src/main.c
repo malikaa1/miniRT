@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:31:38 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/11 02:06:35 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/15 15:38:16 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char **argv) {
-
-  t_minirt minirt;
-
-  if (init_minirt(&minirt) == -1) {
-    return (1);
-  }
-
-  if (parse_args(argc, argv, &minirt) == -1) {
-    return (1);
-  }
-
-  if (parse_scene(&minirt) == -1) {
-    // return 1;
-  }
-
+void print_config(t_minirt minirt) {
   printf("%-20s=> width : %d, heigh : %d\n", "Resolution",
          minirt.scene->resolution.width, minirt.scene->resolution.height);
 
@@ -47,7 +32,7 @@ int main(int argc, char **argv) {
     printf("%-20s=> origin: (%f,%f,%f) direction: (%f,%f,%f) fov: %f\n",
            "camera", camera->origin.x, camera->origin.y, camera->origin.z,
            camera->direction.x, camera->direction.y, camera->direction.z,
-           camera->horizontal_field_of_view);
+           camera->fov);
     camera_list = camera_list->next;
   }
 
@@ -119,18 +104,28 @@ int main(int argc, char **argv) {
            triangle->p3.y, triangle->p3.z, triangle->color.r, triangle->color.g,
            triangle->color.b);
     triangle_list = triangle_list->next;
+
+    printf("Number of cameras => %d\n", minirt.scene->number_of_cameras);
+  }
+}
+
+int main(int argc, char **argv) {
+
+  t_minirt minirt;
+
+  if (init_minirt(&minirt) == -1) {
+    return (1);
   }
 
-  // minirt_init(&minirt);
-  // create_window(500, 500, "MiniRT", &minirt);
-  // mlx_loop(minirt.mlx);
+  if (parse_args(argc, argv, &minirt) == -1) {
+    return (1);
+  }
 
-  free_linked_list(minirt.scene->cameras);
-  free_linked_list(minirt.scene->lights);
-  free_linked_list(minirt.scene->planes);
-  free_linked_list(minirt.scene->squares);
-  free_linked_list(minirt.scene->spheres);
-  free_linked_list(minirt.scene->cylinders);
-  free_linked_list(minirt.scene->triangles);
-  free_value(minirt.scene);
+  if (parse_scene(&minirt) == -1) {
+    return (1);
+  }
+
+  print_config(minirt);
+  run_minirt(&minirt);
+  create_window("MiniRT", &minirt);
 }

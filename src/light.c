@@ -10,7 +10,7 @@ int set_light_position(char *value, t_light *light) {
 }
 
 int set_light_color(char *value, t_light *light) {
-  if (get_color(value, &light->color) == -1) {
+  if (parse_color(value, &light->color) == -1) {
     printf("wrong color %s for light", value);
     return (-1);
   }
@@ -34,7 +34,7 @@ int set_light_brightness(char *value, t_light *light) {
   return (0);
 }
 
-int create_light(char *value, t_light *light) {
+int parse_light(char *value, t_light *light) {
   char **values;
 
   values = ft_split(value, ' ');

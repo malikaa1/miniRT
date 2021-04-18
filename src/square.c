@@ -18,7 +18,7 @@ int set_square_direction(char *value, t_square *square) {
 }
 
 int set_square_color(char *value, t_square *square) {
-  if (get_color(value, &square->color) == -1) {
+  if (parse_color(value, &square->color) == -1) {
     printf("wrong color %s for square", value);
     return (-1);
   }

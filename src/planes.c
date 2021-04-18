@@ -18,7 +18,7 @@ int set_plane_direction(char *value, t_plane *plane) {
 }
 
 int set_plane_color(char *value, t_plane *plane) {
-  if (get_color(value, &plane->color) == -1) {
+  if (parse_color(value, &plane->color) == -1) {
     printf("wrong color %s for plane", value);
     return (-1);
   }

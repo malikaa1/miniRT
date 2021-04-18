@@ -18,7 +18,7 @@ int set_cylinder_direction(char *value, t_cylinder *cylinder) {
 }
 
 int set_cylinder_color(char *value, t_cylinder *cylinder) {
-  if (get_color(value, &cylinder->color) == -1) {
+  if (parse_color(value, &cylinder->color) == -1) {
     printf("wrong color %s for cylinder", value);
     return (-1);
   }
@@ -51,7 +51,7 @@ int set_cylinder_height(char *value, t_cylinder *cylinder) {
   return (0);
 }
 
-int create_cylinder(char *value, t_cylinder *cylinder) {
+int parse_cylinder(char *value, t_cylinder *cylinder) {
   char **values;
 
   values = ft_split(value, ' ');

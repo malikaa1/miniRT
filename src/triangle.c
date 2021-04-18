@@ -26,7 +26,7 @@ int set_triangle_p3(char *value, t_triangle *triangle) {
 }
 
 int set_triangle_color(char *value, t_triangle *triangle) {
-  if (get_color(value, &triangle->color) == -1) {
+  if (parse_color(value, &triangle->color) == -1) {
     printf("wrong color %s for triangle", value);
     return (-1);
   }

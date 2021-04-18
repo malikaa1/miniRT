@@ -1,8 +1,9 @@
 NAME = miniRT
 SRCS = ${wildcard ./src/*.c}
+#SRCS =./src/test_mlx.c
 INCLUDES = includes
 CC = gcc
-MLX_FLAGS = -I./minilibx-linux -L./minilibx-linux -lmlx -lXext -lX11
+MLX_FLAGS = -I./minilibx-linux -L./minilibx-linux -lm -lmlx -lXext -lX11
 LIBFT_FLAGS = -I./libft -L./libft -lftt
 MLX_DIR = ./minilibx-linux
 LIBFT_DIR = ./libft

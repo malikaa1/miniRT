@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:31:47 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/11 01:58:03 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/18 02:10:45 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,26 @@ typedef struct	s_light
 	t_vector	position;
 }				t_light;
 
+typedef struct s_image{
+    void* image;
+    char* address;
+    int bits_per_pixel;
+    int size_line;
+    int endian;
+
+} t_image;
+
 typedef struct	s_camera
 {
+    int id;
 	t_vector origin;
     t_vector direction;
-    double horizontal_field_of_view;
+    t_vector up;
+    t_vector horizontal;
+    t_vector vertical;
+    t_vector lower_left_corner;
+    double fov;
+    t_image image;
 }				t_camera;
 
 typedef struct	s_plane
@@ -98,6 +113,13 @@ typedef struct	s_triangle
 }				t_triangle;
 
 
+typedef struct	s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+}				t_ray;
+
+
 typedef struct s_scene
 {
     t_resolution resolution;
@@ -109,7 +131,9 @@ typedef struct s_scene
     t_list* spheres;
     t_list* cylinders;
     t_list* triangles;
-
+    int current_camera_id;
+    int number_of_cameras;
+    t_camera* current_camera;
     
 } t_scene;
 
@@ -125,10 +149,12 @@ typedef struct s_minirt
 
 
 #define ESC 65307
-
+#define TAB 65289
+#define PI 3.141592653589793
+int handle_error(char *message);
 //window
 void minirt_init(t_minirt *minirt);
-void create_window(int x, int y, char *title, t_minirt * minirt);
+void create_window(char *title, t_minirt *minirt);
 int close_window(t_minirt *minirt);
 int parse_args(int argc, char **argv, t_minirt *minirt);
 int parse_scene(t_minirt *minirt);
@@ -150,22 +176,46 @@ int get_length(char **values);
 
 //vector
 int create_vector(char *value, t_vector *vector);
+t_vector cross_vector(t_vector v1, t_vector v2);
+float dot_vector(t_vector v1, t_vector v2);
+t_vector normalize_vector(t_vector v);
+t_vector negative_vector(t_vector v1);
+t_vector divide_vector(t_vector v1, float f);
+t_vector multiply_vector(t_vector v1, float f);
+t_vector substract_vector(t_vector v1, t_vector v2);
+t_vector add_vector(t_vector v1, t_vector v2);
 
 //camera
-int create_camera(char *value, t_camera *camera);
+int parse_camera(char *value, t_camera *camera);
+int setup_cameras(t_minirt *minirt);
+int switch_camera(t_minirt *minirt);
 
 //minirt
 int init_minirt(t_minirt *minirt);
+int run_minirt(t_minirt *minirt);
 
 //colors
-int get_color(char *value, t_color *color);
-int create_ambiant_ligntning(char *value, t_ambiant_ligntning *ambiant_ligntning);
-int create_light(char *value, t_light *light);
+int parse_color(char *value, t_color *color);
+int parse_ambiant_ligntning(char *value, t_ambiant_ligntning *ambiant_ligntning);
+int parse_light(char *value, t_light *light);
 int create_plane(char *value, t_plane *plane);
 int create_square(char *value, t_square *square);
 int create_sphere(char *value, t_sphere *sphere);
-int create_cylinder(char *value, t_cylinder *cylinder);
+int parse_cylinder(char *value, t_cylinder *cylinder);
 int create_triangle(char *value, t_triangle *triangle);
+
+int get_resolution(char *value, t_resolution *resolution);
+
+int draw_scene(t_minirt *minirt);
+
+void my_mlx_pixel_put(t_image *data, int x, int y, int color);
+
+t_ray get_ray_direction(int x, int y, t_camera camera);
+
+int create_rgb(t_color c, int endian);
+
+t_color raytrace(t_minirt *minirt, t_ray *ray);
+int intersect_spheres(t_minirt *minirt, t_ray *ray);
 
 
 
