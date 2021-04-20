@@ -68,7 +68,7 @@ t_vector negative_vector(t_vector v1) {
 float get_vector_length(t_vector v) {
   float length;
 
-  length = sqrt(sqrt(v.x) + sqrt(v.y) + sqrt(v.z));
+  length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
   return (length);
 }
 
@@ -88,5 +88,14 @@ t_vector cross_vector(t_vector v1, t_vector v2) {
   v.x = v1.y * v2.z - v1.z * v2.y;
   v.y = v1.z * v2.x - v1.x * v2.z;
   v.z = v1.x * v2.y - v1.y * v2.x;
+  return (v);
+}
+
+t_vector multiply_vectors(t_vector v1, t_vector v2) {
+  t_vector v;
+
+  v.x = v1.x * v2.x;
+  v.y = v1.y * v2.y;
+  v.z = v1.z * v2.z;
   return (v);
 }

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 00:54:29 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/15 18:39:31 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/18 16:48:08 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,20 @@ void minirt_init(t_minirt *minirt) {
   minirt->window = NULL;
 }
 
+void free_cameras(t_list *cameras) {
+  t_list *camera = cameras;
+  t_camera *cam;
+  while (camera != NULL) {
+    cam = camera->content;
+    free_value(cam->image);
+    camera = camera->next;
+  }
+  free_linked_list(cameras);
+}
+
 int close_window(t_minirt *minirt) {
   mlx_destroy_window(minirt->mlx, minirt->window);
-  free_linked_list(minirt->scene->cameras);
+  free_cameras(minirt->scene->cameras);
   free_linked_list(minirt->scene->lights);
   free_linked_list(minirt->scene->planes);
   free_linked_list(minirt->scene->squares);
@@ -35,6 +46,7 @@ int close_window(t_minirt *minirt) {
 
 int on_key_press(int key_code, t_minirt *minirt) {
   if (key_code == ESC) {
+    print_config(*minirt);
     close_window(minirt);
   }
   if (key_code == TAB) {
@@ -58,6 +70,6 @@ void create_window(char *title, t_minirt *minirt) {
   mlx_hook(minirt->window, 33, 1L << 17, &close_window, minirt);
   mlx_hook(minirt->window, 2, 1L << 0, &on_key_press, minirt);
   mlx_put_image_to_window(minirt->mlx, minirt->window,
-                          minirt->scene->current_camera->image.image, 0, 0);
+                          minirt->scene->current_camera->image->image, 0, 0);
   mlx_loop(minirt->mlx);
 }

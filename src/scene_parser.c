@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:32:03 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/13 04:44:23 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/19 18:37:14 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ int add_camera(t_minirt *minirt, char *value) {
   if (parse_camera(value, camera) == -1) {
     return -1;
   }
+  camera->image = malloc(sizeof(t_image));
+  if (camera->image == NULL)
+    return (handle_error("Unable to create camera image"));
+  camera->image->image = NULL;
+  camera->image->address = NULL;
   camera->id = minirt->scene->number_of_cameras + 1;
   camera_list = ft_lstnew(camera);
   ft_lstadd_back(&minirt->scene->cameras, camera_list);

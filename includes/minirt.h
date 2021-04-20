@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:31:47 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/18 02:10:45 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/20 17:34:16 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,16 @@ typedef struct	s_camera
 	t_vector origin;
     t_vector direction;
     t_vector up;
-    t_vector horizontal;
-    t_vector vertical;
-    t_vector lower_left_corner;
+	t_vector forward;
+    t_vector right;
+
+    // t_vector horizontal;
+    // t_vector vertical;
+    // t_vector lower_left_corner;
     double fov;
-    t_image image;
+    double w;
+    double h;
+    t_image* image;
 }				t_camera;
 
 typedef struct	s_plane
@@ -144,6 +149,7 @@ typedef struct s_minirt
     char* scene_file;
     int save;
     t_scene* scene;
+    double t;
     
 } t_minirt;
 
@@ -151,6 +157,8 @@ typedef struct s_minirt
 #define ESC 65307
 #define TAB 65289
 #define PI 3.141592653589793
+#define MAX_VALUE 1E99
+#define MIN_VALUE 0.0001F
 int handle_error(char *message);
 //window
 void minirt_init(t_minirt *minirt);
@@ -184,6 +192,8 @@ t_vector divide_vector(t_vector v1, float f);
 t_vector multiply_vector(t_vector v1, float f);
 t_vector substract_vector(t_vector v1, t_vector v2);
 t_vector add_vector(t_vector v1, t_vector v2);
+t_vector multiply_vectors(t_vector v1, t_vector v2);
+float get_vector_length(t_vector v);
 
 //camera
 int parse_camera(char *value, t_camera *camera);
@@ -216,6 +226,7 @@ int create_rgb(t_color c, int endian);
 
 t_color raytrace(t_minirt *minirt, t_ray *ray);
 int intersect_spheres(t_minirt *minirt, t_ray *ray);
+void print_config(t_minirt minirt);
 
 
 

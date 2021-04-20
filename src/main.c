@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:31:38 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/15 15:38:16 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/04/18 22:20:37 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void print_config(t_minirt minirt) {
   printf("%-20s=> width : %d, heigh : %d\n", "Resolution",
          minirt.scene->resolution.width, minirt.scene->resolution.height);
 
-  printf("%-20s=> ratio : %f, color : (%f,%f,%f)\n", "ambiant lightning",
-         minirt.scene->ambiant_ligntning.ratio,
+  printf("%-20s=> ratio : %.1f, color : (%.1f,%.1f,%.1f)\n",
+         "ambiant lightning", minirt.scene->ambiant_ligntning.ratio,
          minirt.scene->ambiant_ligntning.color.r,
          minirt.scene->ambiant_ligntning.color.g,
          minirt.scene->ambiant_ligntning.color.b);
@@ -29,7 +29,8 @@ void print_config(t_minirt minirt) {
   while (camera_list != NULL) {
     t_camera *camera = camera_list->content;
 
-    printf("%-20s=> origin: (%f,%f,%f) direction: (%f,%f,%f) fov: %f\n",
+    printf("%-20s=> origin: (%.1f,%.1f,%.1f) direction: (%.1f,%.1f,%.1f) fov: "
+           "%.1f\n",
            "camera", camera->origin.x, camera->origin.y, camera->origin.z,
            camera->direction.x, camera->direction.y, camera->direction.z,
            camera->fov);
@@ -40,7 +41,8 @@ void print_config(t_minirt minirt) {
   while (light_list != NULL) {
     t_light *light = light_list->content;
 
-    printf("%-20s=> position: (%f,%f,%f) ratio: %f color: (%f,%f,%f)\n",
+    printf("%-20s=> position: (%.1f,%.1f,%.1f) ratio: %.1f color: "
+           "(%.1f,%.1f,%.1f)\n",
            "light", light->position.x, light->position.y, light->position.z,
            light->brightness, light->color.r, light->color.g, light->color.b);
     light_list = light_list->next;
@@ -50,11 +52,12 @@ void print_config(t_minirt minirt) {
   while (plane_list != NULL) {
     t_plane *plane = plane_list->content;
 
-    printf("%-20s=> position: (%f,%f,%f) direction: (%f,%f,%f) color: "
-           "(%f,%f,%f)\n",
-           "plane", plane->origin.x, plane->origin.y, plane->origin.z,
-           plane->direction.x, plane->direction.y, plane->direction.z,
-           plane->color.r, plane->color.g, plane->color.b);
+    printf(
+        "%-20s=> position: (%.1f,%.1f,%.1f) direction: (%.1f,%.1f,%.1f) color: "
+        "(%.1f,%.1f,%.1f)\n",
+        "plane", plane->origin.x, plane->origin.y, plane->origin.z,
+        plane->direction.x, plane->direction.y, plane->direction.z,
+        plane->color.r, plane->color.g, plane->color.b);
     plane_list = plane_list->next;
   }
 
@@ -62,8 +65,9 @@ void print_config(t_minirt minirt) {
   while (square_list != NULL) {
     t_square *square = square_list->content;
 
-    printf("%-20s=> origin: (%f,%f,%f) direction: (%f,%f,%f) size: %f color: "
-           "(%f,%f,%f)\n",
+    printf("%-20s=> origin: (%.1f,%.1f,%.1f) direction: (%.1f,%.1f,%.1f) size: "
+           "%.1f color: "
+           "(%.1f,%.1f,%.1f)\n",
            "square", square->origin.x, square->origin.y, square->origin.z,
            square->direction.x, square->direction.y, square->direction.z,
            square->size, square->color.r, square->color.g, square->color.b);
@@ -74,7 +78,8 @@ void print_config(t_minirt minirt) {
   while (sphere_list != NULL) {
     t_sphere *sphere = sphere_list->content;
 
-    printf("%-20s=> origin: (%f,%f,%f) raduis: %f color: (%f,%f,%f)\n",
+    printf("%-20s=> origin: (%.1f,%.1f,%.1f) raduis: %.1f color: "
+           "(%.1f,%.1f,%.1f)\n",
            "sphere", sphere->origin.x, sphere->origin.y, sphere->origin.z,
            sphere->raduis, sphere->color.r, sphere->color.g, sphere->color.b);
     sphere_list = sphere_list->next;
@@ -84,8 +89,9 @@ void print_config(t_minirt minirt) {
   while (cylinder_list != NULL) {
     t_cylinder *cylinder = cylinder_list->content;
 
-    printf("%-20s=> origin: (%f,%f,%f) direction: (%f,%f,%f) diameter: %f "
-           "height: %f  color: (%f,%f,%f)\n",
+    printf("%-20s=> origin: (%.1f,%.1f,%.1f) direction: (%.1f,%.1f,%.1f) "
+           "diameter: %.1f "
+           "height: %.1f  color: (%.1f,%.1f,%.1f)\n",
            "cylinder", cylinder->origin.x, cylinder->origin.y,
            cylinder->origin.z, cylinder->direction.x, cylinder->direction.y,
            cylinder->direction.z, cylinder->diameter, cylinder->height,
@@ -97,8 +103,9 @@ void print_config(t_minirt minirt) {
   while (triangle_list != NULL) {
     t_triangle *triangle = triangle_list->content;
 
-    printf("%-20s=> p1: (%f,%f,%f) p2: (%f,%f,%f) p3: (%f,%f,%f) color: "
-           "(%f,%f,%f)\n",
+    printf("%-20s=> p1: (%.1f,%.1f,%.1f) p2: (%.1f,%.1f,%.1f) p3: "
+           "(%.1f,%.1f,%.1f) color: "
+           "(%.1f,%.1f,%.1f)\n",
            "triangle", triangle->p1.x, triangle->p1.y, triangle->p1.z,
            triangle->p2.x, triangle->p2.y, triangle->p2.z, triangle->p3.x,
            triangle->p3.y, triangle->p3.z, triangle->color.r, triangle->color.g,
@@ -127,5 +134,4 @@ int main(int argc, char **argv) {
 
   print_config(minirt);
   run_minirt(&minirt);
-  create_window("MiniRT", &minirt);
 }

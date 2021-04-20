@@ -23,6 +23,7 @@ int init_minirt(t_minirt *minirt) {
   minirt->scene->current_camera = NULL;
   minirt->scene->number_of_cameras = 0;
   minirt->scene->current_camera_id = 0;
+  minirt->t = MAX_VALUE;
   return (0);
 }
 
@@ -30,5 +31,6 @@ int run_minirt(t_minirt *minirt) {
   printf("Rendering ...\n");
   setup_cameras(minirt);
   draw_scene(minirt);
+  create_window("MiniRT", minirt);
   return (0);
 }

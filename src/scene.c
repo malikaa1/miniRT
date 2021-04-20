@@ -13,23 +13,20 @@ int draw_scene(t_minirt *minirt) {
     int y;
     x = 0;
     y = 0;
-    while (y < minirt->scene->resolution.height) {
-      x = 0;
-      while (x < minirt->scene->resolution.width) {
-        // if (current_cam->id == 1)
-        //   my_mlx_pixel_put(&current_cam->image, x, y, 0x00FF0000);
-        // else
-        //   my_mlx_pixel_put(&current_cam->image, x, y, 0x00FF9999);
-
-        // get ray direction
-        ray = get_ray_direction(x, y, *current_cam);
-        // get color
+    while (x < minirt->scene->resolution.width) {
+      y = 0;
+      while (y < minirt->scene->resolution.height) {
+        ray = get_ray_direction(
+            (2.0f * x) / minirt->scene->resolution.width - 1.0f,
+            (-2.0f * y) / minirt->scene->resolution.height + 1.0f,
+            *current_cam);
+        minirt->t = MAX_VALUE;
         color = raytrace(minirt, &ray);
-        my_mlx_pixel_put(&current_cam->image, x, y,
-                         create_rgb(color, current_cam->image.endian));
-        x++;
+        my_mlx_pixel_put(current_cam->image, x, y,
+                         create_rgb(color, current_cam->image->endian));
+        y += 1;
       }
-      y++;
+      x++;
     }
     camera = camera->next;
   }
