@@ -21,7 +21,12 @@ int draw_scene(t_minirt *minirt) {
             (-2.0f * y) / minirt->scene->resolution.height + 1.0f,
             *current_cam);
         minirt->t = MAX_VALUE;
-        color = raytrace(minirt, &ray);
+        int t = 0;
+        color = raytrace(minirt, &ray, &t);
+        if (t == 1) {
+          // printf("x=%d,y=%d, intersect =%d\n", x, y, t);
+          // return 0;
+        }
         my_mlx_pixel_put(current_cam->image, x, y,
                          create_rgb(color, current_cam->image->endian));
         y += 1;

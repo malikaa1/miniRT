@@ -1,5 +1,5 @@
 #include "minirt.h"
-t_ray get_ray_direction(int x, int y, t_camera camera) {
+t_ray get_ray_direction(double x, double y, t_camera camera) {
   // t_ray ray;
   // t_vector h;
   // t_vector v;

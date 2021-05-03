@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:31:47 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/20 17:34:16 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/05/03 02:52:10 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,11 +220,11 @@ int draw_scene(t_minirt *minirt);
 
 void my_mlx_pixel_put(t_image *data, int x, int y, int color);
 
-t_ray get_ray_direction(int x, int y, t_camera camera);
+t_ray get_ray_direction(double x, double y, t_camera camera);
 
 int create_rgb(t_color c, int endian);
 
-t_color raytrace(t_minirt *minirt, t_ray *ray);
+t_color raytrace(t_minirt *minirt, t_ray *ray, int *intersect);
 int intersect_spheres(t_minirt *minirt, t_ray *ray);
 void print_config(t_minirt minirt);
 

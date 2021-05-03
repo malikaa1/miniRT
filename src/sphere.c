@@ -65,14 +65,19 @@ int intersect_sphere(t_sphere *s, t_ray *r, double *t) {
   //   *t = (-b - sqrt(discriminant)) / (2.0 * a);
   //   return (1);
   // }
-
+  t_ray *l_ray = r;
+  l_ray->origin = substract_vector(l_ray->origin, s->origin);
   float a, b, c, discriminant, t1, t2;
-  t_vector origin = substract_vector(r->origin, s->origin);
 
-  a = get_vector_length(r->direction);
-  b = 2 * dot_vector(r->direction, origin);
-  c = get_vector_length(origin) - sqrt(s->raduis);
-  discriminant = sqrt(b) - 4 * a * c;
+  a = l_ray->direction.x * l_ray->direction.x +
+      l_ray->direction.y * l_ray->direction.y +
+      l_ray->direction.z * l_ray->direction.z;
+
+  b = 2 * dot_vector(l_ray->direction, l_ray->origin);
+  c = l_ray->origin.x * l_ray->origin.x + l_ray->origin.y * l_ray->origin.y +
+      l_ray->origin.z * l_ray->origin.z - s->raduis * s->raduis;
+
+  discriminant = b * b - 4 * a * c;
   if (discriminant < 0)
     return (0);
   t1 = (-b - sqrt(discriminant)) / (2 * a);
