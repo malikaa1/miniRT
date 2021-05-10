@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 21:32:03 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/04/19 18:37:14 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/05/06 22:44:55 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void init_supported_objects(const char **objects) {
+void init_supported_objects(const char **objects)
+{
 
   objects[0] = "R";
   objects[1] = "A";
@@ -31,9 +32,11 @@ void init_supported_objects(const char **objects) {
   objects[8] = "tr";
 }
 
-int get_length(char **values) {
+int get_length(char **values)
+{
   int length = 0;
-  while (*values != NULL) {
+  while (*values != NULL)
+  {
     values++;
     length++;
   }
@@ -42,17 +45,20 @@ int get_length(char **values) {
 
 int is_empty(char *line) { return ft_strlen(line) == 0; }
 
-int is_valid_line(char *line) {
+int is_valid_line(char *line)
+{
   const char *objs[9];
   char *obj;
   unsigned int i;
   i = 0;
   init_supported_objects(objs);
-  while (i < sizeof(objs) / sizeof(char *)) {
+  while (i < sizeof(objs) / sizeof(char *))
+  {
     obj = ft_substr(line, 0, ft_strlen(objs[i]));
     if (obj == NULL)
       return (0);
-    if (ft_strcmp(obj, objs[i]) == 0) {
+    if (ft_strcmp(obj, objs[i]) == 0)
+    {
       free(obj);
       return (1);
     }
@@ -62,13 +68,15 @@ int is_valid_line(char *line) {
   return (0);
 }
 
-int is_space(char c) {
+int is_space(char c)
+{
   if (c == ' ')
     return 1;
   return 0;
 }
 
-int set_scene_resolution(t_minirt *minirt, char *value) {
+int set_scene_resolution(t_minirt *minirt, char *value)
+{
   int x;
   int y;
   x = 0;
@@ -85,9 +93,11 @@ int set_scene_resolution(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int set_ambiant_ligntning(t_minirt *minirt, char *value) {
+int set_ambiant_ligntning(t_minirt *minirt, char *value)
+{
   t_ambiant_ligntning ambiant_ligntning;
-  if (parse_ambiant_ligntning(value, &ambiant_ligntning) == -1) {
+  if (parse_ambiant_ligntning(value, &ambiant_ligntning) == -1)
+  {
     return -1;
   }
 
@@ -96,16 +106,19 @@ int set_ambiant_ligntning(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_camera(t_minirt *minirt, char *value) {
+int add_camera(t_minirt *minirt, char *value)
+{
   t_camera *camera;
   t_list *camera_list;
 
   camera = malloc(sizeof(t_camera));
-  if (camera == NULL) {
+  if (camera == NULL)
+  {
     printf("unable to create camera\n");
     return -1;
   }
-  if (parse_camera(value, camera) == -1) {
+  if (parse_camera(value, camera) == -1)
+  {
     return -1;
   }
   camera->image = malloc(sizeof(t_image));
@@ -120,16 +133,19 @@ int add_camera(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_light(t_minirt *minirt, char *value) {
+int add_light(t_minirt *minirt, char *value)
+{
   t_light *light;
   t_list *light_list;
 
   light = malloc(sizeof(t_light));
-  if (light == NULL) {
+  if (light == NULL)
+  {
     printf("unable to create light\n");
     return -1;
   }
-  if (parse_light(value, light) == -1) {
+  if (parse_light(value, light) == -1)
+  {
     return -1;
   }
   light_list = ft_lstnew(light);
@@ -137,16 +153,19 @@ int add_light(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_plane(t_minirt *minirt, char *value) {
+int add_plane(t_minirt *minirt, char *value)
+{
   t_plane *plane;
   t_list *plane_list;
 
   plane = malloc(sizeof(t_plane));
-  if (plane == NULL) {
+  if (plane == NULL)
+  {
     printf("unable to create plane\n");
     return -1;
   }
-  if (create_plane(value, plane) == -1) {
+  if (create_plane(value, plane) == -1)
+  {
     return -1;
   }
   plane_list = ft_lstnew(plane);
@@ -154,16 +173,19 @@ int add_plane(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_square(t_minirt *minirt, char *value) {
+int add_square(t_minirt *minirt, char *value)
+{
   t_square *square;
   t_list *square_list;
 
   square = malloc(sizeof(t_square));
-  if (square == NULL) {
+  if (square == NULL)
+  {
     printf("unable to create square\n");
     return -1;
   }
-  if (create_square(value, square) == -1) {
+  if (create_square(value, square) == -1)
+  {
     return -1;
   }
   square_list = ft_lstnew(square);
@@ -171,16 +193,19 @@ int add_square(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_sphere(t_minirt *minirt, char *value) {
+int add_sphere(t_minirt *minirt, char *value)
+{
   t_sphere *sphere;
   t_list *sphere_list;
 
   sphere = malloc(sizeof(t_sphere));
-  if (sphere == NULL) {
+  if (sphere == NULL)
+  {
     printf("unable to create sphere\n");
     return -1;
   }
-  if (create_sphere(value, sphere) == -1) {
+  if (create_sphere(value, sphere) == -1)
+  {
     return -1;
   }
   sphere_list = ft_lstnew(sphere);
@@ -188,16 +213,19 @@ int add_sphere(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_cylinder(t_minirt *minirt, char *value) {
+int add_cylinder(t_minirt *minirt, char *value)
+{
   t_cylinder *cylinder;
   t_list *cylinder_list;
 
   cylinder = malloc(sizeof(t_cylinder));
-  if (cylinder == NULL) {
+  if (cylinder == NULL)
+  {
     printf("unable to create cylinder\n");
     return -1;
   }
-  if (parse_cylinder(value, cylinder) == -1) {
+  if (parse_cylinder(value, cylinder) == -1)
+  {
     return -1;
   }
   cylinder_list = ft_lstnew(cylinder);
@@ -205,16 +233,19 @@ int add_cylinder(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int add_triangle(t_minirt *minirt, char *value) {
+int add_triangle(t_minirt *minirt, char *value)
+{
   t_triangle *triangle;
   t_list *triangle_list;
 
   triangle = malloc(sizeof(t_triangle));
-  if (triangle == NULL) {
+  if (triangle == NULL)
+  {
     printf("unable to create triangle\n");
     return -1;
   }
-  if (create_triangle(value, triangle) == -1) {
+  if (create_triangle(value, triangle) == -1)
+  {
     return -1;
   }
   triangle_list = ft_lstnew(triangle);
@@ -222,7 +253,8 @@ int add_triangle(t_minirt *minirt, char *value) {
   return (0);
 }
 
-int create_scene_object(t_minirt *minirt, char *key, char *value) {
+int create_scene_object(t_minirt *minirt, char *key, char *value)
+{
   if (strcmp(key, "R") == 0)
     return (set_scene_resolution(minirt, value));
   if (strcmp(key, "A") == 0)
@@ -244,13 +276,15 @@ int create_scene_object(t_minirt *minirt, char *key, char *value) {
   return (-1);
 }
 
-int parse_scene_line(t_minirt *minirt, char *line) {
+int parse_scene_line(t_minirt *minirt, char *line)
+{
   char *key;
   char *value;
   int i;
   int j;
   i = 0;
-  if (is_valid_line(line) == 0) {
+  if (is_valid_line(line) == 0)
+  {
     printf("Invalid data '%s' \n", line);
     return -1;
   }
@@ -267,7 +301,8 @@ int parse_scene_line(t_minirt *minirt, char *line) {
   return i;
 }
 
-int parse_scene(t_minirt *minirt) {
+int parse_scene(t_minirt *minirt)
+{
 
   int fd;
   char *line;
@@ -275,17 +310,20 @@ int parse_scene(t_minirt *minirt) {
   int result;
   line_read = 1;
   fd = open(minirt->scene_file, O_RDONLY);
-  if (fd == -1) {
+  if (fd == -1)
+  {
     perror("Cannot open scene file");
     return -1;
   }
 
-  while (line_read == 1) {
+  while (line_read == 1)
+  {
     line_read = get_next_line(fd, &line);
-    if (is_empty(line) == 1)
+    if (is_empty(line) == 1 || line[0] == '#')
       continue;
     result = parse_scene_line(minirt, line);
-    if (result == -1) {
+    if (result == -1)
+    {
       free_value(line);
       return -1;
     }
